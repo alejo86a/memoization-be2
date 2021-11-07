@@ -1,0 +1,25 @@
+{
+  "name": "be2",
+  "version": "1.0.0",
+  "description": "examen",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alejo86a/memoization-be2.git"
+  },
+  "keywords": [
+    "memoize",
+    "be2",
+    "alejo86a",
+    "javascript"
+  ],
+  "author": "alejo86a",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alejo86a/memoization-be2/issues"
+  },
+  "homepage": "https://github.com/alejo86a/memoization-be2#readme"
+}
