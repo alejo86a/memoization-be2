@@ -1,20 +1,26 @@
-const results = {};
+const results = { '[100]': 'hola' };
+// const results = { };
 // stores data (value) by key
 async function cache_store(key, value) {
     results[key] = value;
 }
 // retrieves data by key (if it exists)
 async function cache_retrieve(key) {
-    return results[key];
+    const retrieve = results[key];
+    if(!retrieve){
+        return Promise.reject(0);
+    }
+    return retrieve;
 }
+
 function memoize(func) {
     return (...args) => {
       const argsKey = JSON.stringify(args);
       console.log('entre aqui')
-      Promise.race([cache_retrieve(argsKey) , func]).then((value) => {
-        cache_store(argsKey, value)
-        console.log('value', value)
-        return value;
+      Promise.any([cache_retrieve(argsKey) , func(args)]).then(value => {
+          console.log('vavavalue', value)
+          cache_store(argsKey, value)
+          return value;
       });
     };
   };
@@ -32,12 +38,15 @@ function memoize(func) {
 
 
 console.time("First call");
-console.log(memoize(slow_function(100)))
+const m = memoize(slow_function)(100)
+console.log(m)
 console.timeEnd("First call");
 
 
 
 
-console.time("Second call");
-console.log(memoize(slow_function(100)));
-console.timeEnd("Second call");
+// console.time("Second call");
+// console.log(memoize(slow_function(100)));
+// console.timeEnd("Second call");
+
+// setTimeout(function(){console.log(results)},2000)
