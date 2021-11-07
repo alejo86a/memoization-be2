@@ -1,5 +1,5 @@
-const results = { '[100]': 'hola' };
-// const results = { };
+// const results = { '[100]': 'hola' };
+const results = { };
 // stores data (value) by key
 async function cache_store(key, value) {
     results[key] = value;
@@ -16,12 +16,10 @@ async function cache_retrieve(key) {
 function memoize(func) {
     return (...args) => {
       const argsKey = JSON.stringify(args);
-      console.log('entre aqui')
-      Promise.any([cache_retrieve(argsKey) , func(args)]).then(value => {
-          console.log('vavavalue', value)
+      return Promise.any([cache_retrieve(argsKey) , func(args)]).then(value=>{
           cache_store(argsKey, value)
-          return value;
-      });
+            return value
+        })
     };
   };
 
@@ -38,15 +36,24 @@ function memoize(func) {
 
 
 console.time("First call");
-const m = memoize(slow_function)(100)
-console.log(m)
-console.timeEnd("First call");
+memoize(slow_function)(100).then(value => {
+    console.log('value 1: ', value.length)
+    console.timeEnd("First call");
+})
 
 
 
+console.time("Second call");
+memoize(slow_function)(100).then(value => {
+    console.log('value 2: ', value.length)
+    console.timeEnd("Second call");
+})
 
-// console.time("Second call");
-// console.log(memoize(slow_function(100)));
-// console.timeEnd("Second call");
+console.time("Third call");
+memoize(slow_function)(100).then(value => {
+    console.log('value 2: ', value.length)
+    console.timeEnd("Third call");
+})
+
 
 // setTimeout(function(){console.log(results)},2000)
